@@ -1,16 +1,14 @@
 /**
- * @class Main event handler creates an event listener on the whole document, which after that 
- * listens to all of the clicks and compares to the given structures of an element and a function attached to it
- * @constructor Accepts an array of element, function structures see param
- * @param {Array<object>} rawPairs Array of objects, which contains an element and a function [{element:x, func:y},]
+ * @class SimplES constructor creates an event listener on the whole document, which after that 
+ * listens to all of the clicks and compares them to the given structures of elements and functions attached
+ * @constructor Accepts structures array of elements and functions see param
+ * @param {Array<object>} rawPairs Array of objects, which contains an element and a function [{element:x, onEvent:y},]
  */
-class SimpleES {
+class SimplES {
     constructor(rawPairs=null) {
         this.events = [];
         
-        if (rawPairs) {
-            this.attachFromConstructor(rawPairs);
-        }
+        if (rawPairs) this.attachFromConstructor(rawPairs);
 
         this.listen();
     }
@@ -21,7 +19,7 @@ class SimpleES {
      * @param {function} func Function attached to the element
      * @returns An array of event objects for a possible later use
      */
-    attachWitchSameFunction(elements, func) {
+    attachWithSameFunction(elements, func) {
         const eventContainer = [];
         for (const element of elements) {
             const event = new Event(element, func);
@@ -49,7 +47,11 @@ class SimpleES {
      */
     attachFromConstructor(rawPairs) {
         for (const pair of rawPairs) {
-            const event = new Event(pair.element, pair.func);
+            if (!('element' in pair && 'onEvent' in pair)) {
+                console.error("You must specify an element key and an onEvent key in the object!");
+                return;
+            } 
+            const event = new Event(pair.element, pair.onEvent);
             this.events.push(event);
         }
     }
@@ -80,4 +82,18 @@ class Event {
             this.eventFunction();
         }
     }
+}
+
+
+// TODO: use these functions to test input parameter of methods
+
+function isFunction(functionToCheck) {
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+function isElement(o) {
+    return (
+      typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+      o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+    );
 }
