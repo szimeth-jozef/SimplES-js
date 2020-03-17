@@ -44,3 +44,6 @@ const eventSystem = new SimplES();
 
 eventSystem.attachWithSameFunction(buttons, () => console.log("Clicked on one of these blue buttons!"));
 ```
+
+
+**P.S.: Feel free to expand this tiny library :D**
