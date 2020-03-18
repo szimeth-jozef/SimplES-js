@@ -45,7 +45,7 @@ const eventSystem = new SimplES();
 eventSystem.attachWithSameFunction(buttons, () => console.log("Clicked on one of these blue buttons!"));
 ```
 
-We can trigger an event when the target of a click is not in the registred events with `addEmptyClick`. Keep in mind that every call of this method with valid input will override the previous event. When is this useful? For example when the web page has multiple buttons like posts on social network. They have options button which opens a little dialog box, but we want to also close them when the user clicks to another button or when he/she click away and then we can use this method.
+We can trigger an event when the target of a click is not in the registred events with `addEmptyClick`. Keep in mind that every call of this method with valid input will override the previous event. When is this useful? For example when the web page has multiple buttons like posts on social network. They have options button which opens a little dialog box, but we want to also close them when the user clicks to another button or when he/she clicks away and then we can use this method.
 ```javascript
 eventSystem.addEmptyClick(() => console.log("Here is nothing to click on!"));
 ```
