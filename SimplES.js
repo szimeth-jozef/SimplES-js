@@ -1,16 +1,32 @@
 /**
- * @class SimplES constructor creates an event listener on the whole document, which after that 
- * listens to all of the clicks and compares them to the given structures of elements and functions attached
+ * @class SimplES constructor creates an event listener on the whole 
+ * document, which after that listens to all of the clicks and compares
+ * them to the given structures of elements and functions attached 
  * @constructor Accepts structures array of elements and functions see param
- * @param {Array<object>} rawPairs Array of objects, which contains an element and a function [{element:x, onEvent:y},]
+ * @param {Array<object>} rawPairs Array of objects, which contains 
+ * an element and a function [{element:x, onEvent:y},]
  */
 class SimplES {
     constructor(rawPairs=null) {
         this.events = [];
+        this.EMPTY_CLICK = null;
         
         if (rawPairs) this.attachFromConstructor(rawPairs);
 
         this.listen();
+    }
+
+    /**
+     * @description Detects when there was click on a unregistred 
+     * element and triggers the EMPTY_CLICK event 
+     * @param {function} func Function attached to the event 
+     */
+    addEmptyClick(func) {
+        if (isFunction(func)) {
+            this.EMPTY_CLICK = func;
+        } else {
+            throw "An event action must be a function!";
+        }
     }
 
     /**
@@ -64,8 +80,18 @@ class SimplES {
         const self = this;
         document.addEventListener('click', function(event) {
             const target = event.target;
+            let isTargetInEvents = false;
+
             for (const event of self.events) {
-                event.match(target);
+                const found = event.match(target);
+                if (found) isTargetInEvents = true;
+            }
+
+            if (!isTargetInEvents && self.EMPTY_CLICK) {
+                self.EMPTY_CLICK();
+            }
+            else if (!isTargetInEvents) {
+                console.warn("Empty click event has not been set! You can add one with addEmptyClick() method.");
             }
         });
     }
@@ -75,12 +101,15 @@ class Event {
     constructor(elem, func) {
         this.trackedElement = elem;
         this.eventFunction = func;
+        // this.eventID = this.generateID();
     }
 
     match(target) {
         if (target === this.trackedElement) {
             this.eventFunction();
+            return true;
         }
+        return false;
     }
 }
 

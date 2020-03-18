@@ -37,8 +37,13 @@ const eventSystem = new SimplES([
 -----------------------------------------------------------
     Test case 2
     -testing attachWithSameFunction method
+    -testing addEmptyClick method
 */
 const buttons = document.getElementsByClassName('button');
 
 eventSystem.attachWithSameFunction(buttons, () => console.log("Clicked on one of these blue buttons!"));
+
+eventSystem.addEmptyClick(() => console.log("Where are you clicking there is nothing!"));
+// eventSystem.addEmptyClick(23);
+
 
