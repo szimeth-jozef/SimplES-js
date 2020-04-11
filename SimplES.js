@@ -33,7 +33,7 @@ class SimplES {
      * @description Attaches to multiple elements the same function
      * @param {Array<HTMLElement>} elements An array of HTMLElements
      * @param {function} func Function attached to the element
-     * @returns An array of event objects for a possible later use
+     * @returns An array of event objects for debug or a possible later use
      */
     attachWithSameFunction(elements, func) {
         const eventContainer = [];
@@ -49,7 +49,7 @@ class SimplES {
      * @description Attaches a single event to an elemet with corespondig function
      * @param {HTMLElement} element Tracked HTMLElement
      * @param {function} func Function attached to the element
-     * @returns The event object for a possible later use
+     * @returns The event object for debug or a possible later use
      */
     attachEvent(element, func) {
         const event = new Event(element, func);
