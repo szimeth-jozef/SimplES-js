@@ -14,7 +14,7 @@ export interface RawEventType {
  * @param {Array<object>} rawPairs Array of objects, which contains
  * an element and a function [{element:x, onEvent:y},]
  */
-export default class SimplES {
+export class SimplES {
     private readonly _events: Event[];
     private _EMPTY_CLICK: (() => void) | null;
 

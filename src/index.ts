@@ -1,1 +1,1 @@
-export * from "./SimplES";
+export { SimplES, RawEventType } from "./SimplES";
